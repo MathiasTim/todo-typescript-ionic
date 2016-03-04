@@ -10,5 +10,17 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "compileOnSave": false
+  "compileOnSave": false,
+  "exclude": [
+    "node_modules",
+    "typings/",
+    "hooks",
+    "platforms",
+    "plugins",
+    "www",
+    "gulp",
+    ".tmp",
+    "app/.tmp/",
+    "app/bower_components"
+  ]
 }

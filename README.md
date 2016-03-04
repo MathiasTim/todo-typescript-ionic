@@ -25,7 +25,19 @@ add tsconfig.json
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "compileOnSave": false
+  "compileOnSave": false,
+  "exclude": [
+    "node_modules",
+    "typings/",
+    "hooks",
+    "platforms",
+    "plugins",
+    "www",
+    "gulp",
+    ".tmp",
+    "app/.tmp/",
+    "app/bower_components"
+  ]
 }
 ```
 ## Step 2: Modify the watch/build process
