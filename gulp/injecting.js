@@ -8,19 +8,23 @@ var $ = require('gulp-load-plugins')();
 // modules
 var wiredep = require('wiredep');
 var mainBowerFiles = require('main-bower-files');
+var typescript = require('gulp-tsc');
 
 // inject app/**/*.js, bower components, css into index.html
 // inject environment variables into config.js constant
-gulp.task('inject-all', ['styles', 'wiredep', 'bower-fonts', 'environment', 'build-vars'], function () {
+gulp.task('inject-all', ['compile', 'styles', 'wiredep', 'bower-fonts', 'environment', 'build-vars'], function () {
 
   return gulp.src('app/index.html')
     .pipe(
-      $.inject( // app/**/*.js files
-        gulp.src(paths.jsFiles)
+      $.inject( // app/.tmp/**/*.js' files
+        gulp.src('app/.tmp/**/*.js')
           .pipe($.plumber()) // use plumber so watch can start despite js errors
           .pipe($.naturalSort())
           .pipe($.angularFilesort()),
-        {relative: true}))
+        {
+          ignorePath: '../app/.tmp',
+          relative: true
+        }))
     .pipe(
       $.inject( // inject compiled css
         gulp.src('.tmp/*/styles/*.css', {read: false})
@@ -30,6 +34,18 @@ gulp.task('inject-all', ['styles', 'wiredep', 'bower-fonts', 'environment', 'bui
           relative: true,
         }))
     .pipe(gulp.dest('app'));
+});
+
+// build typescript to tmp
+gulp.task('compile', function () { // add the compile task
+  return gulp.src(paths.tsFiles)
+  .pipe(typescript({
+    sourceMap: true,
+    declaration: true,
+    outDir: 'app/.tmp/',
+    emitError: false
+  }))
+  .pipe(gulp.dest('app/.tmp/'));
 });
 
 // build styles to tmp

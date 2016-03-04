@@ -8,7 +8,8 @@ var fs = require('fs');
 // config
 gulp.paths = {
   dist: 'www',
-  jsFiles: ['app/**/*.js', '!app/bower_components/**/*.js'],
+  jsFiles: ['app/.tmp/**/*.js', '!app/bower_components/**/*.js'], // new .tmp path inside app is needed (sourcemaps wont work otherwise)
+  tsFiles: ['app/**/*.ts'],
   jsonFiles: ['app/**/*.json', '!app/bower_components/**/*.json'],
   templates: ['app/*/templates/**/*'],
   contrib: ['gulpfile.js', 'gulp/**/*.js', 'hooks/**/*.js'],

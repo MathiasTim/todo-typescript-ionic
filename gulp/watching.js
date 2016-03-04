@@ -50,6 +50,8 @@ gulp.task('watch', ['inject-all'], function () {
   });
   // watch for changes in scss
   gulp.watch('app/*/styles/**/*.scss', ['styles']);
+  // watch for changes in ts
+  gulp.watch(paths.tsFiles, ['compile']);
   // watch for changes in environment files and new config files
   gulp.watch([
     'app/main/constants/env-*.json',

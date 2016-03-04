@@ -1,5 +1,76 @@
-# ToDo
-This project was generated with Generator-M-Ionic v1.6.0. For more info visit the [repository](https://github.com/mwaylabs/generator-m-ionic) or check out the README below.
+# ToDo (POC to use anuglar2/ionic2 parts with angular1/ionic1)
+
+## Step 1: Add the typescript parts
+
+gulp script
+```
+  $ npm install gulp-tsc --save-dev
+```
+install typings module and typings for angular, ionic, cordova
+```
+  $ npm install -g tsd
+  $ tsd install ionic cordova --save
+```
+add tsconfig.json
+```
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "allowNonTsExtensions": true,
+    "module": "commonjs",
+    "sourceMap": true,
+    "isolatedModules": true,
+    "noEmitOnError": false,
+    "rootDir": ".",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "compileOnSave": false
+}
+```
+## Step 2: Modify the watch/build process
+Changes to gulpfile.js
+```
+  jsFiles: ['app/.tmp/**/*.js', '!app/bower_components/**/*.js'], // new .tmp path inside app is needed (sourcemaps wont work otherwise)
+  tsFiles: ['app/**/*.ts'],
+```
+Changes to gulp/injecting.js
+```
+var typescript = require('gulp-tsc'); // load the module
+
+gulp.task('inject-all', ['compile', // add the compile task to inject-all
+
+$.inject( // app/.tmp/**/*.js files
+  gulp.src('app/.tmp/**/*.js') // change the path to the new .tmp path
+    ...
+  {
+    ignorePath: '../app/.tmp', // add the ignorePath
+    relative: true
+  }))
+
+// build typescript to tmp
+gulp.task('compile', function () { // add the compile task
+  return gulp.src(paths.tsFiles)
+  .pipe(typescript({
+    sourceMap: true,
+    declaration: true,
+    outDir: 'app/.tmp/',
+    emitError: false
+  }))
+  .pipe(gulp.dest('app/.tmp/'));
+});
+```
+Changes to gulp/watching.js
+```
+// watch for changes in ts
+gulp.watch(paths.tsFiles, ['compile']); // add the watcher for ts files
+```
+Changes to .gitignore
+```
+#typescript
+/typings/
+/app/.tmp/
+```
 
 # Generator-M-Ionic v1.6.0
 

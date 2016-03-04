@@ -21,6 +21,10 @@
 # build folder
 /www/**
 
+# typescript
+/typings/
+/app/.tmp/
+
 # IDE
 *.sublime-project
 *.sublime-workspace
