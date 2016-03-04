@@ -15,13 +15,13 @@
       "commit": "11444987349955e88646958ef277dd419ff646fc"
     },
     "angularjs/angular.d.ts": {
-      "commit": "11444987349955e88646958ef277dd419ff646fc"
+      "commit": "a1c41c9b9e070ba595b85bf7a7afcac79af9e9a9"
     },
     "cordova/plugins/Contacts.d.ts": {
       "commit": "11444987349955e88646958ef277dd419ff646fc"
     },
     "jquery/jquery.d.ts": {
-      "commit": "11444987349955e88646958ef277dd419ff646fc"
+      "commit": "a1c41c9b9e070ba595b85bf7a7afcac79af9e9a9"
     },
     "cordova/plugins/Camera.d.ts": {
       "commit": "11444987349955e88646958ef277dd419ff646fc"
@@ -76,6 +76,9 @@
     },
     "cordova/plugins/Keyboard.d.ts": {
       "commit": "11444987349955e88646958ef277dd419ff646fc"
+    },
+    "angular-ui-router/angular-ui-router.d.ts": {
+      "commit": "a1c41c9b9e070ba595b85bf7a7afcac79af9e9a9"
     }
   }
 }

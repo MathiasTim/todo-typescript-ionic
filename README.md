@@ -83,6 +83,52 @@ Changes to .gitignore
 /typings/
 /app/.tmp/
 ```
+## Step 3: transform existing .js files to .ts
+change all .js to .ts (yes, thats it)
+to get typing information add the following 'comment' to your files.
+(beware to check the path, it should match the `typings` folder in the root)
+```
+/// <reference path="../typings/tsd.d.ts" />
+```
+Changes to app.ts
+```
+/// <reference path="../typings/tsd.d.ts" />
+'use strict';
+angular.module('ToDo', [
+  'ionic',
+  'ngCordova',
+  'ui.router',
+  'main'
+]);
+```
+Changes to main.ts
+```
+/// <reference path="../../typings/tsd.d.ts" />
+'use strict';
+
+class Routes {
+  constructor (
+    private $stateProvider: angular.ui.IStateProvider,
+    private $urlRouterProvider: angular.ui.IUrlRouterProvider
+  ) {
+    // ROUTING with ui.router
+    this.$urlRouterProvider.otherwise('/main');
+
+    this.$stateProvider
+    // this state is placed in the <ion-nav-view> in the index.html
+    .state('main', {
+      url: '/main',
+      template: '<ion-view view-title="main"></ion-view>',
+      // templateUrl: 'main/templates/<someTemplate>.html',
+      // controller: 'SomeCtrl as ctrl'
+    });
+  }
+}
+
+angular.module('main', [])
+.config(($stateProvider, $urlRouterProvider) =>
+  new Routes($stateProvider, $urlRouterProvider));
+```
 
 # Generator-M-Ionic v1.6.0
 
