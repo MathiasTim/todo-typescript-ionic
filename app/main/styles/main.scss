@@ -21,4 +21,13 @@ $ionicons-font-path: "../assets/fonts" !default;
 // Include all of Ionic
 @import "../../bower_components/ionic/scss/ionic";
 
-
+.todo-list {
+  .item-icon-left {
+    .item-content {
+      padding: 16px 16px 16px 54px;
+      .button {
+        max-height: 60px;
+      }
+    }
+  }
+}

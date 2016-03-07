@@ -129,6 +129,18 @@ angular.module('main', [])
 .config(($stateProvider, $urlRouterProvider) =>
   new Routes($stateProvider, $urlRouterProvider));
 ```
+## Step 4: Implement the app (see sourcecode)
+
+Links:
+ - [ionic typescript blog](http://blog.ionic.io/ionic-and-typescript-part-1/)
+ - [ionic typescript repo](https://github.com/driftyco/ionic-typescript-example)
+ - [angularjs with typescript](https://angularjs.de/artikel/angularjs-und-typescript)
+ - [more on components](https://toddmotto.com/exploring-the-angular-1-5-component-method/)
+ - further reading (not covered by the POC)
+  - [thoughtram on ES6 in angularjs](http://blog.thoughtram.io/angularjs/es6/2015/01/23/exploring-angular-1.3-using-es6.html)
+  - [thoughtram on ng-upgrade](http://blog.thoughtram.io/angular/2015/10/24/upgrading-apps-to-angular-2-using-ngupgrade.html)
+  - [ng-forward](https://github.com/ngUpgraders/ng-forward)
+  - [ng-metadata](https://www.youtube.com/watch?v=fqWtyMEgtCc)
 
 # Generator-M-Ionic v1.6.0
 

@@ -8,21 +8,11 @@
     </div>
   </form>
   <ion-content class="has-subheader">
-    <ion-list>
+    <ion-list class="todo-list">
       <ion-item class="item-icon-left"
         ui-sref="todoDetail({id: todo.id})"
         ng-repeat="todo in todoC.service.todos | orderBy:['done', '-createDate']">
-        <button class="button button-clear icon"
-          ng-class="{
-            'ion-android-checkbox-outline': todo.done,
-            'ion-android-checkbox-outline-blank': !todo.done
-          }"
-          ng-click="todoC.toggleTodo(todo, $event)">
-        </button>
-        {{todo.description}}
-        <span class="item-note">
-          {{todo.createDate|date:'shortDate'}}
-        </span>
+        <todo-item item="todo"></todo-item>
       </ion-item>
     </ion-list>
   </ion-content>

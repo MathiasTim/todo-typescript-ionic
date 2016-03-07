@@ -33,11 +33,6 @@ class TodoCtrl {
     });
     this.todo = '';
   }
-
-  toggleTodo (todo, event: TouchEvent) {
-    event.stopImmediatePropagation();
-    todo.done = !todo.done;
-  }
 }
 
 angular.module('main')
