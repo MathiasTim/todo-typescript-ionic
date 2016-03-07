@@ -1,0 +1,29 @@
+<ion-view view-title="Todos">
+  <form ng-submit="todoC.addTodo(todoC.todo)">
+    <div class="bar bar-header bar-subheader item-input-inset">
+      <label class="item-input-wrapper">
+        <i class="icon ion-plus placeholder-icon"></i>
+        <input type="text" ng-model="todoC.todo" placeholder="Add a todo">
+      </label>
+    </div>
+  </form>
+  <ion-content class="has-subheader">
+    <ion-list>
+      <ion-item class="item-icon-left"
+        ui-sref="todoDetail({id: todo.id})"
+        ng-repeat="todo in todoC.service.todos | orderBy:['done', '-createDate']">
+        <button class="button button-clear icon"
+          ng-class="{
+            'ion-android-checkbox-outline': todo.done,
+            'ion-android-checkbox-outline-blank': !todo.done
+          }"
+          ng-click="todoC.toggleTodo(todo, $event)">
+        </button>
+        {{todo.description}}
+        <span class="item-note">
+          {{todo.createDate|date:'shortDate'}}
+        </span>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

@@ -19,8 +19,6 @@
     "plugins",
     "www",
     "gulp",
-    ".tmp",
-    "app/.tmp/",
     "app/bower_components"
   ]
 }
