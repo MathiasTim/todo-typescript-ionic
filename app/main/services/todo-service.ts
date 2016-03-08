@@ -10,7 +10,7 @@ module TodoService {
 
   export class Todo {
     private $inject = ['$http', '$timeout', '$q'];
-    private todos: Array<ITodo> = [];
+    public todos: Array<ITodo> = [];
     constructor (
       private $http: ng.IHttpService,
       private $timeout: ng.ITimeoutService,
@@ -19,8 +19,9 @@ module TodoService {
     }
 
     getTodos () {
+      let url = 'main/assets/';
       // add some delay to make it a more realistic http call
-      return this.$http.get('main/assets/todos.json')
+      return this.$http.get(`${url}todos.json`)
       .then((result:any) => this.$timeout(() => {
         result.data.forEach((item) => {
           this.todos.push(item);

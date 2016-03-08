@@ -11,7 +11,7 @@
     <ion-list class="todo-list">
       <ion-item class="item-icon-left"
         ui-sref="todoDetail({id: todo.id})"
-        ng-repeat="todo in todoC.service.todos | orderBy:['done', '-createDate']">
+        ng-repeat="todo in todoC.TodoService.todos | orderBy:['done', '-createDate']">
         <todo-item item="todo"></todo-item>
       </ion-item>
     </ion-list>

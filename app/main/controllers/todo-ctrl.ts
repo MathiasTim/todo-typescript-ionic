@@ -7,14 +7,14 @@ class TodoCtrl {
   constructor(
     private $ionicLoading: ionic.loading.IonicLoadingService,
     private $scope: ng.IScope,
-    public TodoService
+    private $timeout: ng.ITimeoutService,
+    private TodoService: TodoService.Todo
   ) {
     this.$scope.$on('$ionicView.afterEnter', () => {
       if (!this.TodoService.todos.length) {
         this.getTodos();
       }
     });
-    this.service = TodoService;
   }
 
   getTodos () {
