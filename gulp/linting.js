@@ -6,8 +6,8 @@ var paths = gulp.paths;
 var $ = require('gulp-load-plugins')();
 
 // all linting tasks
-gulp.task('linting', ['eslint', 'jsonlint']);
-gulp.task('linting-throw', ['eslint-throw', 'jsonlint-throw']);
+gulp.task('linting', ['eslint', 'tslint', 'jsonlint']);
+gulp.task('linting-throw', ['eslint-throw', 'tslint-throw', 'jsonlint-throw']);
 
 // check app and test for eslint errors
 var eslint = function (fail) {
@@ -20,6 +20,19 @@ var eslint = function (fail) {
 };
 gulp.task('eslint', eslint());
 gulp.task('eslint-throw', eslint(true));
+
+// check app and test for tslint errors
+var tslint = function (fail) {
+  fail = fail || false;
+  return function () {
+    return gulp.src(paths.tsFiles)
+      .pipe($.tslint())
+      .pipe($.tslint.report('prose', {emitError: fail}));
+
+  };
+};
+gulp.task('tslint', tslint());
+gulp.task('tslint-throw', tslint(true));
 
 // check app for jsonlint errors
 var jsonlint = function (fail) {

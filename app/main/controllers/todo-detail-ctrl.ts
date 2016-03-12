@@ -1,33 +1,32 @@
-/// <reference path="../../../typings/tsd.d.ts" />
+/// <reference path="../../../typings/main.d.ts" />
 
 class TodoDetailCtrl {
-  public $inject = ['$ionicLoading', '$timeout', 'TodoService', '$scope'];
-  todo: TodoService.ITodo;
-  public service: any;
+  private todo: any;
   constructor(
     private $ionicLoading: ionic.loading.IonicLoadingService,
     private $ionicHistory: ionic.navigation.IonicHistoryService,
     private $scope: ng.IScope,
     private $state: angular.ui.IStateService,
-    public TodoService
+    private TodoService: TodoService
   ) {
-    this.$scope.$on('$ionicView.beforeEnter', () => {
-      this.$ionicLoading.show();
-      this.TodoService.getTodo(this.$state.params['id'])
-      .then((todo) => this.todo = todo)
-      .catch(() => {
-        this.$ionicHistory.nextViewOptions({
-          disableAnimate: true,
-          historyRoot: true
-        });
-        this.$state.go('todos');
-      })
-      .finally(this.$ionicLoading.hide);
-    });
-    this.service = TodoService;
+    this.$scope.$on('$ionicView.beforeEnter', () => this.getTodo(this.$state.params));
   }
 
-  toggleTodo (todo) {
+  public getTodo (params: any) {
+    this.$ionicLoading.show();
+    this.TodoService.getTodo(params.id)
+    .then((todo) => this.todo = todo)
+    .catch(() => {
+      this.$ionicHistory.nextViewOptions({
+        disableAnimate: true,
+        historyRoot: true
+      });
+      this.$state.go('todos');
+    })
+    .finally(this.$ionicLoading.hide);
+  }
+
+  public toggleTodo (todo: TodoModule.ITodo) {
     todo.done = !todo.done;
   }
 }

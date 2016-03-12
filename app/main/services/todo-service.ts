@@ -1,49 +1,46 @@
-/// <reference path="../../../typings/tsd.d.ts" />
-module TodoService {
-
+/// <reference path="../../../typings/main.d.ts" />
+module TodoModule {
+  'use strict';
   export interface ITodo {
     id: string;
     description: string;
     createDate: number;
     done: boolean;
   }
+}
 
-  export class Todo {
-    private $inject = ['$http', '$timeout', '$q'];
-    public todos: Array<ITodo> = [];
-    constructor (
-      private $http: ng.IHttpService,
-      private $timeout: ng.ITimeoutService,
-      private $q: ng.IQService
-    ) {
-    }
+class TodoService {
+  public todos: Array<TodoModule.ITodo> = [];
+  constructor (
+    private $http: ng.IHttpService,
+    private $timeout: ng.ITimeoutService,
+    private $q: ng.IQService,
+    private Config: any
+  ) {}
 
-    getTodos () {
-      let url = 'main/assets/';
-      // add some delay to make it a more realistic http call
-      return this.$http.get(`${url}todos.json`)
-      .then((result:any) => this.$timeout(() => {
-        result.data.forEach((item) => {
-          this.todos.push(item);
-        });
-        return result.data;
-      }, 1000));
-    }
-
-    getTodo (id) {
-      return this.$q((resolve, reject) => {
-        let _todos:any = this.todos;
-        let result = _todos.find((element) => element.id === id);
-        if (result) {
-          resolve(result);
-        } else {
-          reject(result);
-        }
+  public getTodos () {
+    let url: string = this.Config.ENV.SERVER_URL;
+    // add some delay to make it a more realistic http call
+    return this.$http.get(`${url}todos.json`)
+    .then((result: any) => this.$timeout(() => {
+      result.data.forEach((item) => {
+        this.todos.push(item);
       });
-    }
+      return result.data;
+    }, 1000));
   }
 
+  public getTodo (id: string) {
+    return this.$q((resolve, reject) => {
+      let todo: TodoModule.ITodo = this.todos.find((element) => element.id === id);
+      if (todo) {
+        resolve(todo);
+      } else {
+        reject(todo);
+      }
+    });
+  }
 }
 
 angular.module('main')
-  .service('TodoService', TodoService.Todo);
+  .service('TodoService', TodoService);

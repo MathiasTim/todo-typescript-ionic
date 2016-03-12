@@ -1,14 +1,12 @@
-/// <reference path="../../../typings/tsd.d.ts" />
+/// <reference path="../../../typings/main.d.ts" />
 
 class TodoCtrl {
-  public $inject = ['$ionicLoading', '$timeout', 'TodoService', '$scope'];
-  todo: String;
-  public service: any;
+  private todo: String;
   constructor(
     private $ionicLoading: ionic.loading.IonicLoadingService,
     private $scope: ng.IScope,
     private $timeout: ng.ITimeoutService,
-    private TodoService: TodoService.Todo
+    private TodoService: TodoService
   ) {
     this.$scope.$on('$ionicView.afterEnter', () => {
       if (!this.TodoService.todos.length) {
@@ -17,14 +15,17 @@ class TodoCtrl {
     });
   }
 
-  getTodos () {
+  public getTodos () {
     this.$ionicLoading.show();
     this.TodoService.getTodos()
       .catch((error) => console.error(error))
-      .finally(() => this.$ionicLoading.hide());
+      .finally(this.$ionicLoading.hide);
   }
 
-  addTodo (todo) {
+  public addTodo (todo: string) {
+    if (!todo || (todo && !todo.length)) {
+      return;
+    }
     this.TodoService.todos.push({
       id: Date.now().toString(),
       description: todo,

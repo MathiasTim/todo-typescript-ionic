@@ -22,7 +22,7 @@ gulp.task('build', buildDependencies, function () {
 });
 
 gulp.task('clean', function () {
-  return gulp.src(['.tmp', paths.dist + '/*'])
+  return gulp.src(['.tmp', 'app/.tmp', paths.dist + '/*'])
     .pipe(vinylPaths(del));
 });
 

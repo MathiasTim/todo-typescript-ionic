@@ -1,54 +1,39 @@
-# ToDo (POC to use anuglar2/ionic2 parts with angular1/ionic1)
+# POC to use anuglar2/ionic2 parts with angular1/ionic1
+Implementing a really simple todo app with generator-m-ionic v1.6.0
 
 ## Step 1: Add the typescript parts
 
-gulp script
+install gulp-tsc and gulp-tslint module
 ```
-  $ npm install gulp-tsc --save-dev
+  $ npm install gulp-tsc gulp-tslint --save-dev
 ```
-install typings module and typings for angular, ionic, cordova
+Hint: Make sure you have no global typescript installed, otherwise the global library will maybe not match the gulp task
+
+add [core-js](https://github.com/zloirock/core-js)
 ```
-  $ npm install -g tsd
-  $ tsd install ionic cordova --save
+ $ bower install core.js --save
+```
+install typings module and typings for ionic, angular, jquery, cordova, angular-ui-router, core-js
+```
+  $ npm install -g typings
+  $ typings install ionic angular jquery cordova angular-ui-router core-js --save --ambient
 ```
 add tsconfig.json
-```
-{
-  "compilerOptions": {
-    "target": "ES5",
-    "allowNonTsExtensions": true,
-    "module": "commonjs",
-    "sourceMap": true,
-    "isolatedModules": true,
-    "noEmitOnError": false,
-    "rootDir": ".",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
-  },
-  "compileOnSave": false,
-  "exclude": [
-    "node_modules",
-    "typings/",
-    "hooks",
-    "platforms",
-    "plugins",
-    "www",
-    "gulp",
-    ".tmp",
-    "app/.tmp/",
-    "app/bower_components"
-  ]
-}
-```
+- See [tsconfig.json](./tsconfig.json) here in the root for detailed configuration
+
+add tslint.json (most rules are adopted to work similar as the ESLint rules)
+ - See [tslint.json](./tslint.json) here in the root for detailed configuration
+
 ## Step 2: Modify the watch/build process
-Changes to gulpfile.js
+changes to gulpfile.js
 ```
-  jsFiles: ['app/.tmp/**/*.js', '!app/bower_components/**/*.js'], // new .tmp path inside app is needed (sourcemaps wont work otherwise)
+  jsFiles: ['app/.tmp/**/*.js', '!app/bower_components/**/*.js'], // new .tmp path (sourcemaps wont work otherwise)
   tsFiles: ['app/**/*.ts'],
 ```
-Changes to gulp/injecting.js
+changes to gulp/injecting.js
 ```
-var typescript = require('gulp-tsc'); // load the module
+var typescript = require('gulp-tsc'); // load gulp-tsc
+var fs = require('fs'); // load fs
 
 gulp.task('inject-all', ['compile', // add the compile task to inject-all
 
@@ -62,37 +47,59 @@ $.inject( // app/.tmp/**/*.js files
 
 // build typescript to tmp
 gulp.task('compile', function () { // add the compile task
+  var tsconfig = JSON.parse(fs.readFileSync('./tsconfig.json'));
   return gulp.src(paths.tsFiles)
-  .pipe(typescript({
-    sourceMap: true,
-    declaration: true,
-    outDir: 'app/.tmp/',
-    emitError: false
-  }))
+  .pipe(typescript(tsconfig.compilerOptions))
   .pipe(gulp.dest('app/.tmp/'));
 });
 ```
-Changes to gulp/watching.js
+changes to gulp/watching.js
 ```
 // watch for changes in ts
 gulp.watch(paths.tsFiles, ['compile']); // add the watcher for ts files
 ```
-Changes to .gitignore
+changes to gulp/building.js
+```
+// add the js temp folder to the clean task
+return gulp.src(['.tmp', 'app/.tmp', paths.dist + '/*'])
+```
+changes to gulp/linting.js
+```
+gulp.task('linting', ['eslint', 'tslint', 'jsonlint']); // add tslint task
+gulp.task('linting-throw', ['eslint-throw', 'tslint-throw', 'jsonlint-throw']); // add tslint-throw task
+
+// add the new tslint function with the tasks below
+
+// check app and test for tslint errors
+var tslint = function (fail) {
+  fail = fail || false;
+  return function () {
+    return gulp.src(paths.tsFiles)
+      .pipe($.tslint())
+      .pipe($.tslint.report('prose', {emitError: fail}));
+
+  };
+};
+gulp.task('tslint', tslint());
+gulp.task('tslint-throw', tslint(true));
+```
+
+changes to .gitignore
 ```
 #typescript
 /typings/
 /app/.tmp/
 ```
 ## Step 3: transform existing .js files to .ts
-change all .js to .ts (yes, thats it)
+change the file extension from .js to .ts (yes, thats it)
 to get typing information add the following 'comment' to your files.
 (beware to check the path, it should match the `typings` folder in the root)
 ```
-/// <reference path="../typings/tsd.d.ts" />
+/// <reference path="../typings/main.d.ts" />
 ```
-Changes to app.ts
+changes to app.ts
 ```
-/// <reference path="../typings/tsd.d.ts" />
+/// <reference path="../typings/main.d.ts" />
 'use strict';
 angular.module('ToDo', [
   'ionic',
@@ -101,9 +108,9 @@ angular.module('ToDo', [
   'main'
 ]);
 ```
-Changes to main.ts
+changes to main.ts
 ```
-/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../../typings/main.d.ts" />
 'use strict';
 
 class Routes {

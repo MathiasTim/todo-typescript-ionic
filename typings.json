@@ -1,0 +1,10 @@
+{
+  "ambientDependencies": {
+    "angular": "registry:dt/angular#1.4.0+20160302143748",
+    "angular-ui-router": "registry:dt/angular-ui-router#0.0.0+20160112161118",
+    "cordova": "registry:dt/cordova#0.0.0+20151102150547",
+    "core-js": "registry:dt/core-js#0.9.7+20160215162030",
+    "ionic": "registry:dt/ionic#0.0.0+20160119153736",
+    "jquery": "registry:dt/jquery#2.0.0+20160303223636"
+  }
+}

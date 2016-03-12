@@ -2,13 +2,15 @@
   "compilerOptions": {
     "target": "ES5",
     "allowNonTsExtensions": true,
-    "module": "commonjs",
+    "module": "system",
     "sourceMap": true,
-    "isolatedModules": true,
     "noEmitOnError": false,
     "rootDir": ".",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "declaration": true,
+    "outDir": "app/.tmp/",
+    "out": "app.js"
   },
   "compileOnSave": false,
   "exclude": [

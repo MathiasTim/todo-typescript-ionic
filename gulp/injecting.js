@@ -9,6 +9,7 @@ var $ = require('gulp-load-plugins')();
 var wiredep = require('wiredep');
 var mainBowerFiles = require('main-bower-files');
 var typescript = require('gulp-tsc');
+var fs = require('fs');
 
 // inject app/**/*.js, bower components, css into index.html
 // inject environment variables into config.js constant
@@ -38,13 +39,9 @@ gulp.task('inject-all', ['compile', 'styles', 'wiredep', 'bower-fonts', 'environ
 
 // build typescript to tmp
 gulp.task('compile', function () { // add the compile task
+  var tsconfig = JSON.parse(fs.readFileSync('./tsconfig.json'));
   return gulp.src(paths.tsFiles)
-  .pipe(typescript({
-    sourceMap: true,
-    declaration: true,
-    outDir: 'app/.tmp/',
-    emitError: false
-  }))
+  .pipe(typescript(tsconfig.compilerOptions))
   .pipe(gulp.dest('app/.tmp/'));
 });
 
@@ -103,7 +100,7 @@ var injectFormat = function (obj) {
 };
 
 gulp.task('environment', function () {
-  return gulp.src('app/*/constants/*config-const.js')
+  return gulp.src('app/*/constants/*config-const.ts')
     .pipe(
       $.inject(
         gulp.src('app/main/constants/env-' + options.env + '.json'),
@@ -129,7 +126,7 @@ gulp.task('environment', function () {
 });
 
 gulp.task('build-vars', ['environment'], function () {
-  return gulp.src('app/*/constants/*config-const.js')
+  return gulp.src('app/*/constants/*config-const.ts')
     .pipe(
       $.inject(
         gulp.src(''),
