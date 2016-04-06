@@ -3,9 +3,9 @@ Implementing a really simple todo app with generator-m-ionic v1.6.0
 
 ## Step 1: Add the typescript parts
 
-install gulp-tsc and gulp-tslint module
+install gulp-tsc, gulp-tslint and tslint module
 ```
-  $ npm install gulp-tsc gulp-tslint --save-dev
+  $ npm install gulp-tsc gulp-tslint tslint --save-dev
 ```
 Hint: Make sure you have no global typescript installed, otherwise the global library will maybe not match the gulp task
 
