@@ -26,12 +26,12 @@ add tslint.json (most rules are adopted to work similar as the ESLint rules)
 
 ## Step 2: Modify the watch/build process
 changes to gulpfile.js
-```
+```js
   jsFiles: ['app/.tmp/**/*.js', '!app/bower_components/**/*.js'], // new .tmp path (sourcemaps wont work otherwise)
   tsFiles: ['app/**/*.ts'],
 ```
 changes to gulp/injecting.js
-```
+```js
 var typescript = require('gulp-tsc'); // load gulp-tsc
 var fs = require('fs'); // load fs
 
@@ -54,17 +54,17 @@ gulp.task('compile', function () { // add the compile task
 });
 ```
 changes to gulp/watching.js
-```
+```js
 // watch for changes in ts
 gulp.watch(paths.tsFiles, ['compile']); // add the watcher for ts files
 ```
 changes to gulp/building.js
-```
+```js
 // add the js temp folder to the clean task
 return gulp.src(['.tmp', 'app/.tmp', paths.dist + '/*'])
 ```
 changes to gulp/linting.js
-```
+```js
 gulp.task('linting', ['eslint', 'tslint', 'jsonlint']); // add tslint task
 gulp.task('linting-throw', ['eslint-throw', 'tslint-throw', 'jsonlint-throw']); // add tslint-throw task
 
@@ -98,7 +98,7 @@ to get typing information add the following 'comment' to your files.
 /// <reference path="../typings/main.d.ts" />
 ```
 changes to app.ts
-```
+```ts
 /// <reference path="../typings/main.d.ts" />
 'use strict';
 angular.module('ToDo', [
@@ -109,7 +109,7 @@ angular.module('ToDo', [
 ]);
 ```
 changes to main.ts
-```
+```ts
 /// <reference path="../../typings/main.d.ts" />
 'use strict';
 
